@@ -5,6 +5,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{C3985174-97A0-455D-948F-DBC2A94681FA}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
+		..\.github\dependabot.yml = ..\.github\dependabot.yml
+		..\.gitignore = ..\.gitignore
 	EndProjectSection
 EndProject
 Global
