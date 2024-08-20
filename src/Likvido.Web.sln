@@ -7,6 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionF
 		..\README.md = ..\README.md
 		..\.github\dependabot.yml = ..\.github\dependabot.yml
 		..\.gitignore = ..\.gitignore
+		version.props = version.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{80A324BB-F698-4B68-A84E-B9BAF38EE3D8}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\nuget.yml = ..\.github\workflows\nuget.yml
 	EndProjectSection
 EndProject
 Global
@@ -19,5 +25,8 @@ Global
 		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80A324BB-F698-4B68-A84E-B9BAF38EE3D8} = {C3985174-97A0-455D-948F-DBC2A94681FA}
 	EndGlobalSection
 EndGlobal
