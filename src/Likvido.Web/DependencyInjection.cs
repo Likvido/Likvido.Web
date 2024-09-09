@@ -13,7 +13,7 @@ public static class DependencyInjection
     {
         services.AddHttpContextAccessor();
         services.TryAddSingleton<IIpAddressService, IpAddressService>();
-        services.TryAddSingleton<IWebSecurityService, WebSecurityService>();
+        services.TryAddSingleton<IRedirectSecurityService, RedirectSecurityService>();
 
         return services;
     }

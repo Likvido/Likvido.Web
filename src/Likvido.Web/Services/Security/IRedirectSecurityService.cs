@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Likvido.Web.Services.IP;
 
 [PublicAPI]
-public interface IWebSecurityService
+public interface IRedirectSecurityService
 {
     void EnsureLinkIsLikvido(string url, IUrlHelper urlHelper);
 }

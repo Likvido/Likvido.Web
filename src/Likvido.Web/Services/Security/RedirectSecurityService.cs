@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Likvido.Web.Services.Security;
 
-public class WebSecurityService(IHttpContextAccessor httpContextAccessor) : IWebSecurityService
+public class RedirectSecurityService(IHttpContextAccessor httpContextAccessor) : IRedirectSecurityService
 {
     public void EnsureLinkIsLikvido(string url, IUrlHelper urlHelper)
     {
