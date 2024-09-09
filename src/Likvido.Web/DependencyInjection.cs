@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Likvido.Web.Services.IP;
+using Likvido.Web.Services.Security;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -12,6 +13,7 @@ public static class DependencyInjection
     {
         services.AddHttpContextAccessor();
         services.TryAddSingleton<IIpAddressService, IpAddressService>();
+        services.TryAddSingleton<IWebSecurityService, WebSecurityService>();
 
         return services;
     }
