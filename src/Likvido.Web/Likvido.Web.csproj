@@ -6,13 +6,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Import Project="$(ProjectDir)../version.props" />
+    <Import Project="$(ProjectDir)../version.props"/>
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2024.2.0" />
+        <PackageReference Include="JetBrains.Annotations" Version="2024.2.0"/>
+        <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.22.0"/>
+        <PackageReference Include="Grafana.OpenTelemetry" Version="1.0.1" />
     </ItemGroup>
 </Project>
