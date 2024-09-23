@@ -48,6 +48,7 @@ public static class DependencyInjection
                             Endpoint = new Uri("http://grafana-alloy-otlp.grafana-alloy.svc.cluster.local:4317")
                         };
                     });
+                    options.IncludeScopes = true;
                 });
             }
         });
