@@ -12,7 +12,7 @@ namespace Likvido.Web;
 [PublicAPI]
 public static class DependencyInjection
 {
-    public static IServiceCollection AddLikvidoWeb(this IServiceCollection services, string webAppName, string applicationInsightsConnectionString)
+    public static IServiceCollection AddLikvidoWeb(this IServiceCollection services, string webAppName, string? applicationInsightsConnectionString)
     {
         var runningInContainer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
         services.AddLogging(loggingBuilder =>
