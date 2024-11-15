@@ -33,7 +33,6 @@ public static class DependencyInjection
                     telemetryConfiguration =>
                     {
                         telemetryConfiguration.ConnectionString = applicationInsightsConnectionString;
-                        telemetryConfiguration.DisableTelemetry = true;
                     },
                     _ => { });
 
