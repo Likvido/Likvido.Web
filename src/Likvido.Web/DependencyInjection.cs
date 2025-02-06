@@ -12,7 +12,7 @@ namespace Likvido.Web;
 [PublicAPI]
 public static class DependencyInjection
 {
-    public static IServiceCollection AddLikvidoWeb(this IServiceCollection services, string webAppName, string? applicationInsightsConnectionString)
+    public static IServiceCollection AddLikvidoWeb(this IServiceCollection services, string webAppName)
     {
         var runningInContainer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
         services.AddLogging(loggingBuilder =>
@@ -24,18 +24,6 @@ public static class DependencyInjection
 
             if (runningInContainer)
             {
-                if (string.IsNullOrWhiteSpace(applicationInsightsConnectionString))
-                {
-                    throw new InvalidOperationException("Application Insights configuration is missing. Please ensure the configuration is present in the appsettings.json file when running in a container.");
-                }
-
-                loggingBuilder.AddApplicationInsights(
-                    telemetryConfiguration =>
-                    {
-                        telemetryConfiguration.ConnectionString = applicationInsightsConnectionString;
-                    },
-                    _ => { });
-
                 loggingBuilder.AddOpenTelemetry(options =>
                 {
                     options.UseGrafana(settings =>
