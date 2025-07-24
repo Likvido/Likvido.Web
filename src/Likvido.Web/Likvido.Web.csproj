@@ -9,14 +9,14 @@
         <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
-    <Import Project="$(ProjectDir)../version.props"/>
+    <Import Project="$(ProjectDir)../version.props" />
 
     <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2024.3.0"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2025.2.0" />
         <PackageReference Include="Grafana.OpenTelemetry" Version="1.2.0" />
     </ItemGroup>
 </Project>
