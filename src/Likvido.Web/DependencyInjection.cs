@@ -1,5 +1,7 @@
 using Grafana.OpenTelemetry;
 using JetBrains.Annotations;
+using Likvido.Identity.PrincipalProviders;
+using Likvido.Web.PrincipalProviders;
 using Likvido.Web.Services.IP;
 using Likvido.Web.Services.Security;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +46,7 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
         services.TryAddSingleton<IIpAddressService, IpAddressService>();
         services.TryAddSingleton<IRedirectSecurityService, RedirectSecurityService>();
+        services.TryAddSingleton<IPrincipalProvider, WebPrincipalProvider>();
 
         return services;
     }
