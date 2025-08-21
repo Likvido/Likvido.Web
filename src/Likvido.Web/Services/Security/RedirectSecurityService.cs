@@ -1,5 +1,4 @@
-﻿using Likvido.Web.Services.IP;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
@@ -37,10 +36,8 @@ public class RedirectSecurityService(IHttpContextAccessor httpContextAccessor) :
                     // we're good
                     return;
                 }
-                else
-                {
-                    throw new ApplicationException(string.Format("URL '{0}' is not local to Likvido. URI host is '{1}' and Request host is '{2}'.", url, uri.Host, httpContext.Request.Host.Host));
-                }
+
+                throw new ApplicationException(string.Format("URL '{0}' is not local to Likvido. URI host is '{1}' and Request host is '{2}'.", url, uri.Host, httpContext.Request.Host.Host));
             }
 
             throw new ApplicationException(string.Format("The URL '{0}' is not well formed", url));
