@@ -1,6 +1,7 @@
 using Grafana.OpenTelemetry;
 using JetBrains.Annotations;
 using Likvido.Identity.PrincipalProviders;
+using Likvido.Metadata;
 using Likvido.Web.PrincipalProviders;
 using Likvido.Web.Services.IP;
 using Likvido.Web.Services.Security;
@@ -44,6 +45,7 @@ public static class DependencyInjection
         });
 
         services.AddHttpContextAccessor();
+        services.AddSingleton(new AppMetadata { AppName = webAppName });
         services.TryAddSingleton<IIpAddressService, IpAddressService>();
         services.TryAddSingleton<IRedirectSecurityService, RedirectSecurityService>();
         services.TryAddSingleton<IPrincipalProvider, WebPrincipalProvider>();
