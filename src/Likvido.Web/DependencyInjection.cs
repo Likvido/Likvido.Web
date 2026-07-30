@@ -32,7 +32,21 @@ public static class DependencyInjection
                     options.UseGrafana(settings =>
                     {
                         settings.ServiceName = webAppName;
-                        settings.ResourceAttributes.Add("k8s.pod.name", Environment.GetEnvironmentVariable("HOSTNAME"));
+
+                        var podName = Environment.GetEnvironmentVariable("HOSTNAME");
+                        if (string.IsNullOrWhiteSpace(podName))
+                        {
+                            // Not running in Kubernetes - e.g. a Docker build stage, where BuildKit does not
+                            // set HOSTNAME. MachineName is always populated, and in a pod it is the pod name
+                            // anyway. OpenTelemetry throws on a null attribute value, so this must not be null.
+                            podName = Environment.MachineName;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(podName))
+                        {
+                            settings.ResourceAttributes.Add("k8s.pod.name", podName);
+                        }
+
                         settings.ExporterSettings = new AgentOtlpExporter
                         {
                             Protocol = OtlpExportProtocol.Grpc,
