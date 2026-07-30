@@ -13,18 +13,48 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{80A324BB-F698-4B68-A84E-B9BAF38EE3D8}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\nuget.yml = ..\.github\workflows\nuget.yml
+		..\.github\workflows\testrunner.yml = ..\.github\workflows\testrunner.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Likvido.Web.Tests", "Likvido.Web.Tests\Likvido.Web.Tests.csproj", "{D0A42D4B-4213-4411-8691-E4E1D09494D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Debug|x64.Build.0 = Debug|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Debug|x86.Build.0 = Debug|Any CPU
 		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|x64.ActiveCfg = Release|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|x64.Build.0 = Release|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|x86.ActiveCfg = Release|Any CPU
+		{BC68067A-C4DE-4CD0-B2C5-1CF245449C15}.Release|x86.Build.0 = Release|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Debug|x64.Build.0 = Debug|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Debug|x86.Build.0 = Debug|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Release|x64.ActiveCfg = Release|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Release|x64.Build.0 = Release|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Release|x86.ActiveCfg = Release|Any CPU
+		{D0A42D4B-4213-4411-8691-E4E1D09494D5}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{80A324BB-F698-4B68-A84E-B9BAF38EE3D8} = {C3985174-97A0-455D-948F-DBC2A94681FA}
