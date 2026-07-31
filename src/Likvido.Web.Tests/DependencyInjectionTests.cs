@@ -5,8 +5,9 @@ using Xunit;
 
 namespace Likvido.Web.Tests;
 
-// These tests mutate process-wide environment variables. Keeping them in a single class puts them in
-// one xunit collection, so they run sequentially and cannot race each other.
+// These tests mutate process-wide environment variables, hence the shared collection — see
+// EnvironmentCollection.
+[Collection(EnvironmentCollection.Name)]
 public class DependencyInjectionTests
 {
     // Set by kubelet in every pod, and what Likvido.Telemetry reads to decide whether to export. The
