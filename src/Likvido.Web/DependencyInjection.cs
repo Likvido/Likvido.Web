@@ -1,14 +1,13 @@
-using Grafana.OpenTelemetry;
 using JetBrains.Annotations;
 using Likvido.Identity.PrincipalProviders;
 using Likvido.Metadata;
+using Likvido.Telemetry;
 using Likvido.Web.PrincipalProviders;
 using Likvido.Web.Services.IP;
 using Likvido.Web.Services.Security;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry.Exporter;
 
 namespace Likvido.Web;
 
@@ -17,7 +16,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddLikvidoWeb(this IServiceCollection services, string webAppName)
     {
-        var runningInContainer = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
         services.AddLogging(loggingBuilder =>
         {
             loggingBuilder.AddFilter("Azure", LogLevel.Warning);
@@ -25,37 +23,10 @@ public static class DependencyInjection
 
             loggingBuilder.AddConsole();
 
-            if (runningInContainer)
-            {
-                loggingBuilder.AddOpenTelemetry(options =>
-                {
-                    options.UseGrafana(settings =>
-                    {
-                        settings.ServiceName = webAppName;
-
-                        var podName = Environment.GetEnvironmentVariable("HOSTNAME");
-                        if (string.IsNullOrWhiteSpace(podName))
-                        {
-                            // Not running in Kubernetes - e.g. a Docker build stage, where BuildKit does not
-                            // set HOSTNAME. MachineName is always populated, and in a pod it is the pod name
-                            // anyway. OpenTelemetry throws on a null attribute value, so this must not be null.
-                            podName = Environment.MachineName;
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(podName))
-                        {
-                            settings.ResourceAttributes.Add("k8s.pod.name", podName);
-                        }
-
-                        settings.ExporterSettings = new AgentOtlpExporter
-                        {
-                            Protocol = OtlpExportProtocol.Grpc,
-                            Endpoint = new Uri("http://grafana-alloy-otlp.grafana-alloy.svc.cluster.local:4317")
-                        };
-                    });
-                    options.IncludeScopes = true;
-                });
-            }
+            // Ships logs to the cluster's Grafana Alloy collector, and a no-op anywhere that is not a
+            // deployed workload — including a test host booting this application on an in-cluster CI
+            // runner. See Likvido.Telemetry for why that case needs saying out loud.
+            loggingBuilder.AddLikvidoOtlpLogging(webAppName);
         });
 
         services.AddHttpContextAccessor();

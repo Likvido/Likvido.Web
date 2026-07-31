@@ -5,22 +5,24 @@ using Xunit;
 
 namespace Likvido.Web.Tests;
 
-// Both tests mutate process-wide environment variables. Keeping them in a single class puts them in
-// one xunit collection, so they run sequentially and cannot race each other.
+// These tests mutate process-wide environment variables, hence the shared collection — see
+// EnvironmentCollection.
+[Collection(EnvironmentCollection.Name)]
 public class DependencyInjectionTests
 {
-    // AddLikvidoWeb only wires up OpenTelemetry when it thinks it is running in a container, so the
-    // tests have to pretend they are - otherwise the interesting code path is skipped entirely.
-    private const string RunningInContainerVariable = "DOTNET_RUNNING_IN_CONTAINER";
-    private const string HostnameVariable = "HOSTNAME";
+    // Set by kubelet in every pod, and what Likvido.Telemetry reads to decide whether to export. The
+    // tests set it to exercise both sides of that decision through AddLikvidoWeb.
+    private const string KubernetesServiceHostVariable = "KUBERNETES_SERVICE_HOST";
+
+    // ⚠️ Cleared for the duration of every test. These tests run on a GitHub-hosted runner, where
+    // GITHUB_ACTIONS is "true" and Likvido.Telemetry therefore declines to export — which would make
+    // the in-a-pod test below quietly assert nothing in CI while still passing locally.
+    private const string GitHubActionsVariable = "GITHUB_ACTIONS";
 
     [Fact]
-    public void AddLikvidoWeb_WithoutHostname_ResolvesLoggerFactory()
+    public void AddLikvidoWeb_OutsideACluster_ResolvesLoggerFactory()
     {
-        // BuildKit does not set HOSTNAME inside a RUN step, so any test booting the application from
-        // a Docker build stage used to fail here with
-        // "Attribute value type is not an accepted primitive (Parameter 'k8s.pod.name')".
-        RunWithEnvironment(hostname: null, () =>
+        RunWithEnvironment(kubernetesServiceHost: null, () =>
         {
             var provider = new ServiceCollection().AddLikvidoWeb("test-app").BuildServiceProvider();
 
@@ -31,9 +33,12 @@ public class DependencyInjectionTests
     }
 
     [Fact]
-    public void AddLikvidoWeb_WithHostname_ResolvesLoggerFactory()
+    public void AddLikvidoWeb_InAPod_ResolvesLoggerFactory()
     {
-        RunWithEnvironment(hostname: "test-app-6c9f8d7b5c-2xq4t", () =>
+        // The path that wires up the OTLP exporter. What the exporter itself does with a missing
+        // HOSTNAME, and when it declines to export at all, belongs to Likvido.Telemetry and is
+        // covered by its own tests — this only proves AddLikvidoWeb composes with it.
+        RunWithEnvironment(kubernetesServiceHost: "172.19.0.1", () =>
         {
             var provider = new ServiceCollection().AddLikvidoWeb("test-app").BuildServiceProvider();
 
@@ -46,22 +51,22 @@ public class DependencyInjectionTests
     // The service provider is deliberately not disposed: shutting down the OTLP exporter waits on a
     // flush timeout against an endpoint that does not exist outside the cluster, which adds seconds
     // of dead wall clock to every test.
-    private static void RunWithEnvironment(string? hostname, Action action)
+    private static void RunWithEnvironment(string? kubernetesServiceHost, Action action)
     {
-        var originalRunningInContainer = Environment.GetEnvironmentVariable(RunningInContainerVariable);
-        var originalHostname = Environment.GetEnvironmentVariable(HostnameVariable);
+        var originalServiceHost = Environment.GetEnvironmentVariable(KubernetesServiceHostVariable);
+        var originalGitHubActions = Environment.GetEnvironmentVariable(GitHubActionsVariable);
 
         try
         {
-            Environment.SetEnvironmentVariable(RunningInContainerVariable, "true");
-            Environment.SetEnvironmentVariable(HostnameVariable, hostname);
+            Environment.SetEnvironmentVariable(KubernetesServiceHostVariable, kubernetesServiceHost);
+            Environment.SetEnvironmentVariable(GitHubActionsVariable, null);
 
             action();
         }
         finally
         {
-            Environment.SetEnvironmentVariable(RunningInContainerVariable, originalRunningInContainer);
-            Environment.SetEnvironmentVariable(HostnameVariable, originalHostname);
+            Environment.SetEnvironmentVariable(KubernetesServiceHostVariable, originalServiceHost);
+            Environment.SetEnvironmentVariable(GitHubActionsVariable, originalGitHubActions);
         }
     }
 }
